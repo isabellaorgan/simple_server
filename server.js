@@ -20,7 +20,7 @@ http.createServer(function(request, response) {
       response.end(body);
   }
   if (request.method in methods)
-    methods[request.method](urlToPath(request.index.html),
+    methods[request.method](urlToPath(request.url),
                             respond, request);
   else respond(405, "Method " + request.method +
               " not allowed.");
@@ -48,6 +48,30 @@ methods.GET = function(path, respond) {
       respond(200, fs.createReadStream(path),
               require("mime").lookup(path));
   });
+};
+
+methods.DELETE = function(path, respond) {
+  fs.stat(path, function(error, stats) {
+    if (error && error.code === "ENOENT")
+      respond(204);
+    else if (error)
+      respond(500, error.toString());
+    else if (stats.isDirectory())
+      fs.rmdir(path, respondErrorOrNothing(respond));
+    else
+      fs.unlink(path, respondErrorOrNothing(respond));
+  });
+};
+
+methods.PUT = function(path, respond, request) {
+  var outStream = fs.createWriteStream(path);
+  outStream.on("error", function(error) {
+    respond(500, error.toString());
+  });
+  outStream.on("finish", function() {
+    respond(204);
+  });
+  request.pipe(outStream);
 };
 
 // //error checking
