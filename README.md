@@ -28,5 +28,16 @@ Also allows the streaming of data.
 Node's http API is very low level, and deals with stream handling and message parsing only.
 Can also act as an http client using the request function.
 
+Closure - a closure is formed when an inner function is made accessible outside of the function in which it is contained so that it
+may be executed after the outer function is returned.
+The function has access to the environment in which it was created.
+A closure is an expression - typically a function - that can have free variables together with an environment that binds those 
+variables ("closes" - the expression.)
+A closure is a function that is evaluated in an environment containing one or more bound variables.  When called, 
+the function can access those variables.
+Any function that keeps reference to variables from its parent's function even after the parent has returned.
+Closures are often used as callbacks.
+
 ETA: After following along with the examples in Chapter 20 of Eloquent JS, I had a working file server, which I have included
 in this repo.
+
