@@ -12,7 +12,6 @@ function send404Response(response) {
   response.end();
 }
 
-
 //request
 function onRequest(request, response) {
   if (request.method === 'GET' && request.url === '/') {
